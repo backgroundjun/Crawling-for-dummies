@@ -1,0 +1,23 @@
+## Template › https://github.com/jekyll/jekyll-seo-tag/blob/master/docs/advanced-usage.md#setting-author-url
+# -------------------------------------
+# {author_id}:
+#   name: {full name}
+#   twitter: {twitter_of_author}
+#   url: {homepage_of_author}
+# -------------------------------------
+
+고민석:
+  name: 고민석
+  url: https://github.com/rigelko/
+
+김남권:
+  name: 김남권
+  url: https://github.com/pillbox326/
+
+배경준:
+  name: 배경준
+  url: https://github.com/backgroundjun/
+
+황예원:
+  name: 황예원
+  url: https://github.com/hwyewon/
