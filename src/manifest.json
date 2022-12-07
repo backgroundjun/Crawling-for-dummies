@@ -6,6 +6,22 @@
   "action": {
     "default_popup": "popup.html"
   },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "permissions": [
+    "tabs",
+    "activeTab",
+    "scripting",
+    "cookies",
+    "declarativeContent",
+    "storage"
+ ],
+ "host_permissions": [
+  "http://*/*",
+  "https://*/*"
+],
+
   "content_scripts": [{
     "matches": ["<all_urls>"],
     "css": ["index.css"],

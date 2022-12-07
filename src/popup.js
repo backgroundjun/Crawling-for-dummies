@@ -5,10 +5,37 @@ document.addEventListener('DOMContentLoaded', function () {
   }, false);
 }, false);
 
-document.getElementById("check").onclick = function () {
-  chrome.runtime.sendMessage('START', (response) => {
-    // 3. Got an asynchronous response with the data from the service worker
-    console.log('received user data', response);
-    initializeUI(response);
-  });
-};
+window.onload = function() {
+  var flag;
+  
+  chrome.storage.local.get(["flag"]).then((result) => {
+    
+    flag = (result.flag);
+    if(flag == "1") {
+      document.getElementById("checkbox").checked = true;
+      //0으로 등록하고 
+      chrome.storage.local.set({ flag: "0" }).then(() => {
+        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+          chrome.tabs.sendMessage(tabs[0].id, {type:"btnClick"}, function(response){
+              console.log('really?');
+          });  
+        })
+      })
+    } else {
+      document.getElementById("checkbox").checked = false;
+    } 
+    
+    
+  });  
+
+  
+}
+
+
+
+document.getElementById("checkbox").addEventListener('click', () => {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    chrome.tabs.sendMessage(tabs[0].id, {type:"btnClick"}, function(response){
+        console.log('really?');
+    });  
+})});
