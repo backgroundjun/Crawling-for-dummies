@@ -25,7 +25,7 @@
   "content_scripts": [{
     "matches": ["<all_urls>"],
     "css": ["index.css"],
-    "js": ["index.js"],
+    "js": ["index.js", "jquery-3.6.1.min.js"],
     "run_at": "document_end"
   }]
 }

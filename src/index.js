@@ -5,6 +5,7 @@ let flag = 0;
 let mouseEventListener
 
 
+
 let getSelector = function (el) {
   if (el.tagName.toLowerCase() == "html")
     return "html";
@@ -120,6 +121,8 @@ chrome.runtime.onMessage.addListener(
 
           case "crawlBtnClick":
             let url = message.url;
+            let selector = message.selector;
+            let result = [];
             var regExp = /\{([^)]+)\}/;
             var matches = regExp.exec(url);
 
@@ -129,33 +132,23 @@ chrome.runtime.onMessage.addListener(
             url = url.replace(matches[1], "{index}");
             
             for(let i = start ; i<=end; i++) {
-              pageUrl = url.replace("{{index}}", i);
-
-              fetch(pageUrl)
-              .then(function(response) {
-                  // When the page is loaded convert it to text
-                  return response.text();
-              })
-              .then(function(html) {
-                  // Initialize the DOM parser
-                  let parser = new DOMParser();
-          
-                  // Parse the text
-                  let doc = parser.parseFromString(html, "text/html");
-                  console.log(doc);
-                  console.log(selectorToJson(message.selector, doc));
-
-                  
-              })
-              .catch(function(err) {  
-                  console.log('Failed to fetch page: ', err);  
-              });
-          
-              
-
-                
-              break;
+                pageUrl = url.replace("{{index}}", i);
+                console.log("page : " + i);
+  
+                $.ajax({
+                  url: pageUrl,
+                  success: function(data) {
+                    var doc = new DOMParser().parseFromString(data, "text/html");
+                    result.push(selectorToJson(selector, doc));
+                    
+                  },
+                  error: function(e) {
+                    console.log(e);
+                  }
+                });
+  
             }
+            console.log(result);
 
 
           break;
