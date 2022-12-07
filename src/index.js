@@ -38,8 +38,8 @@ let mouseEvent = function (e) {
 
 
 
-let selectorToJson = (selector) => {
-  let elements = document.querySelectorAll(selector);
+let selectorToJson = (selector, doc) => {
+  let elements = doc.querySelectorAll(selector);
 
   let data = [];
   let result = [];
@@ -58,7 +58,7 @@ let selectorToJson = (selector) => {
     data.push(tmp);
   }
 
-  console.log(data);
+  return data;
 }
 
 let clickEvent = function (e) {
@@ -80,8 +80,9 @@ let clickEvent = function (e) {
   window.navigator.clipboard.writeText(selector).then(() => {
     alert("selector {{" + selector + "}} is copied in your clipboard");
   });
-  
-  selectorToJson(selector);
+  chrome.storage.local.set({selector})
+
+  selectorToJson(selector, document);
 };
 
 
@@ -90,7 +91,7 @@ chrome.runtime.onMessage.addListener(
     console.log('haha!!!', message);
     console.log('really..');
       switch(message.type) {
-          case "btnClick":
+          case "changeCheck":
             chrome.storage.local.get(["flag"]).then((result) => {
               let flag = result.flag;
               console.log(flag);
@@ -104,7 +105,7 @@ chrome.runtime.onMessage.addListener(
               else if(flag == "1") {
                 chrome.storage.local.set({ flag: "0" })
                 document.removeEventListener('mousemove', mouseEvent);
-                document.removeEventListener('mousemove', clickEvent);
+                document.removeEventListener('click', clickEvent);
 
                 let elems = document.querySelectorAll(".crx_mouse_visited");
 
@@ -115,6 +116,48 @@ chrome.runtime.onMessage.addListener(
               }
               sendResponse({status: 'ok'});
             });
+          break;
+
+          case "crawlBtnClick":
+            let url = message.url;
+            var regExp = /\{([^)]+)\}/;
+            var matches = regExp.exec(url);
+
+            let start = matches[1].split(":")[0];
+            let end = matches[1].split(":")[1];
+
+            url = url.replace(matches[1], "{index}");
+            
+            for(let i = start ; i<=end; i++) {
+              pageUrl = url.replace("{{index}}", i);
+
+              fetch(pageUrl)
+              .then(function(response) {
+                  // When the page is loaded convert it to text
+                  return response.text();
+              })
+              .then(function(html) {
+                  // Initialize the DOM parser
+                  let parser = new DOMParser();
+          
+                  // Parse the text
+                  let doc = parser.parseFromString(html, "text/html");
+                  console.log(doc);
+                  console.log(selectorToJson(message.selector, doc));
+
+                  
+              })
+              .catch(function(err) {  
+                  console.log('Failed to fetch page: ', err);  
+              });
+          
+              
+
+                
+              break;
+            }
+
+
           break;
       }
       sendResponse({status: 'ok'});

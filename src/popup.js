@@ -1,9 +1,3 @@
-document.addEventListener('DOMContentLoaded', function () {
-  var checkButton = document.getElementById('check');
-  checkButton.addEventListener('click', function () {
-    alert("Hey your button is working!");
-  }, false);
-}, false);
 
 window.onload = function() {
   var flag;
@@ -13,10 +7,9 @@ window.onload = function() {
     flag = (result.flag);
     if(flag == "1") {
       document.getElementById("checkbox").checked = true;
-      //0으로 등록하고 
       chrome.storage.local.set({ flag: "0" }).then(() => {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-          chrome.tabs.sendMessage(tabs[0].id, {type:"btnClick"}, function(response){
+          chrome.tabs.sendMessage(tabs[0].id, {type:"changeCheck"}, function(response){
               console.log('really?');
           });  
         })
@@ -24,6 +17,14 @@ window.onload = function() {
     } else {
       document.getElementById("checkbox").checked = false;
     } 
+
+
+    chrome.storage.local.get(["selector"]).then((result) => {
+      selector = result.selector
+      console.log(selector);
+
+      document.getElementById("selector").value = selector;
+    });
     
     
   });  
@@ -35,7 +36,17 @@ window.onload = function() {
 
 document.getElementById("checkbox").addEventListener('click', () => {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {type:"btnClick"}, function(response){
+    chrome.tabs.sendMessage(tabs[0].id, {type:"changeCheck"}, function(response){
+        console.log('really?');
+    });  
+})});
+
+
+document.getElementById("crawlBtn").addEventListener('click', () => {
+  chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+    let url = document.getElementById("url").value;
+    let selector = document.getElementById("selector").value;
+    chrome.tabs.sendMessage(tabs[0].id, {type:"crawlBtnClick", url, selector}, function(response){
         console.log('really?');
     });  
 })});
