@@ -35,8 +35,6 @@ let mouseEvent = function (e) {
   }
 };
 
-// document.addEventListener('mousemove', mouseEvent);
-
 
 
 let selectorToJson = (selector, doc) => {
@@ -89,8 +87,6 @@ let clickEvent = function (e) {
 
 chrome.runtime.onMessage.addListener(
   function(message, sender, sendResponse) {
-    console.log('haha!!!', message);
-    console.log('really..');
       switch(message.type) {
           case "changeCheck":
             chrome.storage.local.get(["flag"]).then((result) => {
@@ -124,6 +120,7 @@ chrome.runtime.onMessage.addListener(
             let selector = message.selector;
             let result = [];
             var regExp = /\{([^)]+)\}/;
+            
             var matches = regExp.exec(url);
 
             let start = matches[1].split(":")[0];
@@ -132,6 +129,7 @@ chrome.runtime.onMessage.addListener(
             url = url.replace(matches[1], "{index}");
             
             for(let i = start ; i<=end; i++) {
+              setTimeout(() => {
                 pageUrl = url.replace("{{index}}", i);
                 console.log("page : " + i);
   
@@ -146,8 +144,11 @@ chrome.runtime.onMessage.addListener(
                     console.log(e);
                   }
                 });
-  
+              }, i * 100)
+            
             }
+
+            alert("end");
             console.log(result);
 
 
