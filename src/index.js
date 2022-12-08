@@ -145,6 +145,14 @@ chrome.runtime.onMessage.addListener(
                 setTimeout(() => {
                   pageUrl = url.replace("{{index}}", i);
                   console.log("page : " + i);
+
+
+
+                  /************************** */
+
+
+
+                  /*************************** */
     
                   $.ajax({
                     url: pageUrl,
@@ -160,7 +168,6 @@ chrome.runtime.onMessage.addListener(
 
                   if (i == end) {
                     alert("end");
-                    console.log(result);
                     downloadJson((result));      
                   }
                 }, i * 100)
@@ -169,7 +176,6 @@ chrome.runtime.onMessage.addListener(
             }
 
             else {
-              console.log(document);
               result.push(selectorToJson(message.selector, document));
               downloadJson(result);
             }
