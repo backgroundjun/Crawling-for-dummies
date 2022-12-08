@@ -9,9 +9,7 @@ window.onload = function() {
       document.getElementById("checkbox").checked = true;
       chrome.storage.local.set({ flag: "0" }).then(() => {
         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-          chrome.tabs.sendMessage(tabs[0].id, {type:"changeCheck"}, function(response){
-              console.log('really?');
-          });  
+          chrome.tabs.sendMessage(tabs[0].id, {type:"changeCheck"}, function(response){});  
         })
       })
     } else {
@@ -36,9 +34,7 @@ window.onload = function() {
 
 document.getElementById("checkbox").addEventListener('click', () => {
   chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-    chrome.tabs.sendMessage(tabs[0].id, {type:"changeCheck"}, function(response){
-        console.log('really?');
-    });  
+    chrome.tabs.sendMessage(tabs[0].id, {type:"changeCheck"}, function(response){});  
 })});
 
 

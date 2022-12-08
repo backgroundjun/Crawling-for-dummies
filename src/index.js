@@ -102,7 +102,7 @@ chrome.runtime.onMessage.addListener(
             chrome.storage.local.get(["flag"]).then((result) => {
               let flag = result.flag;
               console.log(flag);
-              if(flag == "0") {
+              if(flag == "0" || typeof flag =="undefined" ) {
                 chrome.storage.local.set({flag: "1" })
                 document.addEventListener('mousemove', mouseEvent);
                 document.addEventListener('click', clickEvent);
@@ -133,41 +133,46 @@ chrome.runtime.onMessage.addListener(
             
             var matches = regExp.exec(url);
 
-            let start = matches[1].split(":")[0];
-            let end = matches[1].split(":")[1];
+            if(matches.length > 0) { 
+              let start = matches[1].split(":")[0];
+              let end = matches[1].split(":")[1];
 
-            url = url.replace(matches[1], "{index}");
-            
-            for(let i = start ; i<=end; i++) {
-              setTimeout(() => {
-                pageUrl = url.replace("{{index}}", i);
-                console.log("page : " + i);
-  
-                $.ajax({
-                  url: pageUrl,
-                  success: function(data) {
-                    var doc = new DOMParser().parseFromString(data, "text/html");
-                    result.push(selectorToJson(selector, doc));
-                    
-                  },
-                  error: function(e) {
-                    console.log(e);
+              url = url.replace(matches[1], "{index}");
+              
+              for(let i = start ; i<=end; i++) {
+                setTimeout(() => {
+                  pageUrl = url.replace("{{index}}", i);
+                  console.log("page : " + i);
+    
+                  $.ajax({
+                    url: pageUrl,
+                    success: function(data) {
+                      var doc = new DOMParser().parseFromString(data, "text/html");
+                      result.push(selectorToJson(selector, doc));
+                      
+                    },
+                    error: function(e) {
+                      console.log(e);
+                    }
+                  });
+
+                  if (i == end) {
+                    alert("end");
+                    console.log(result);
+                    downloadJson((result));      
                   }
-                });
-
-                if (i == end) {
-                  alert("end");
-                  console.log(result);
-                  downloadJson((result));      
-                }
-              }, i * 100)
-            
+                }, i * 100)
+              
+              }
             }
 
-
+            else {
+              
+            }
 
           break;
       }
+    
       sendResponse({status: 'ok'});
   }
 );
