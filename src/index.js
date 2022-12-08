@@ -133,7 +133,9 @@ chrome.runtime.onMessage.addListener(
             
             var matches = regExp.exec(url);
 
-            if(matches.length > 0) { 
+            console.log(matches);
+
+            if(matches && matches.length > 0) { 
               let start = matches[1].split(":")[0];
               let end = matches[1].split(":")[1];
 
@@ -167,7 +169,9 @@ chrome.runtime.onMessage.addListener(
             }
 
             else {
-              
+              console.log(document);
+              result.push(selectorToJson(message.selector, document));
+              downloadJson(result);
             }
 
           break;
