@@ -85,6 +85,16 @@ let clickEvent = function (e) {
 };
 
 
+let downloadJson = (object) => {
+  let dataStr = "data:text/json;charset=utf-8," + encodeURIComponent(JSON.stringify(object));
+  let a = document.createElement('a');
+  a.setAttribute("href",     dataStr     );
+  a.setAttribute("download", "crawl.json");
+  console.log(a);
+  a.click();
+}
+
+
 chrome.runtime.onMessage.addListener(
   function(message, sender, sendResponse) {
       switch(message.type) {
@@ -144,12 +154,16 @@ chrome.runtime.onMessage.addListener(
                     console.log(e);
                   }
                 });
+
+                if (i == end) {
+                  alert("end");
+                  console.log(result);
+                  downloadJson((result));      
+                }
               }, i * 100)
             
             }
 
-            alert("end");
-            console.log(result);
 
 
           break;
