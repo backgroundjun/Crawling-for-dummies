@@ -66,12 +66,12 @@ let clickEvent = function (e) {
   clickedElement = e.target;
   let selector = clickedElement.parentNode.tagName 
   if(clickedElement.parentNode.classList.length > 0){
-      selector +=  "." + clickedElement.parentNode.classList.value.toString().replaceAll(" ", ",")
+      selector +=  "." + clickedElement.parentNode.classList[0].trim().replaceAll(" ", ",")
       selector = selector.replace(/,\s*$/, "");
    } 
   selector +=  ' ' + clickedElement.tagName
   if(clickedElement.classList.toString().replaceAll("crx_mouse_visited", "").length > 0){
-      selector +=  "." + clickedElement.classList.value.toString().replaceAll("crx_mouse_visited", "").replaceAll(" ", ",");
+      selector +=  "." + clickedElement.classList.value.toString().trim().replaceAll("crx_mouse_visited", "").replaceAll(" ", ",");
       selector = selector.replace(/,\s*$/, "");
   }
 
