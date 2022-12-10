@@ -43,14 +43,13 @@ Web crawling is the process of indexing information on a website using automated
 
 
 ## Why web crawling is IMPORTANT?
-In 2013, IBM announced that approximately 90% of the world’s data was generated in the last two years and that the rate of data generation doubled every two years. However, most data is unstructured and Web crawlers index vast amounts of unstructured data to help search engines find the information they want to find.
+In 2013, IBM announced that approximately 90% of the world’s data was generated in the last two years and that the rate of data generation doubled every two years. However, most data is unstructured and Web crawlers index vast amounts of unstructured data to help search engines find the information they want to find. Indexed data also plays an important role in various fields - data science projects.
 
 
 ## In our project…
 Crawlers that currently exist are hardly accessible and require professional coding, making it difficult for non-major to use. In addition, the existing crawler program has the disadvantage that it is difficult to grasp at once because the UI is not intuitive. Therefore, we want to improve UI and UX so that users who have nothing to do with coding can easily use crawling programs.
 
 
-Indexed data also plays an important role in various fields - data science projects.
  ## Target Development Language
   -	Technology stack: Node.js, Manifest V3
 
@@ -68,7 +67,30 @@ Indexed data also plays an important role in various fields - data science proje
 
   -	Enough disk space to hold the crawling data
 
+## How to install
 
+1. Download **_Crawling-for-Dummies_** from our Github page, website, or [click here to download](https://github.com/backgroundjun/Crawling-for-dummies/archive/refs/tags/v1.0.0.zip), and unpack.
+
+2. At **Chrome browser**, Visit the **Chrome Extension Setting** or paste __chrome://extensions/__ at address bar
+   - you can find **Chrome Extension Setting** at **3 dots** at right side of address bar > **More tools** > **Extension**
+3. Turn on **Developer mode** feature at top right
+4. Click **Load unpacked** button at top left
+5. Select **src** folder from the download file
+6. If **_Crawling-for-Dummies_** is added, you are good to go!
+
+## How to use
+
+1. Go to the page that you want to get data
+2. Click puzzle-shaped button called **extension** at the right side of address bar
+3. Select **Crawling-for-Dummies** and the pop-up will appear
+4. Turn on the **Selecting Mode** and click the element that you want
+   
+5. Paste the web page url to **URL** blank
+   - If you want the data form *multiple pages*, Find the **"page="** or **"p="** in the URL, and changes the following number with **_{startingpage:lastpage}_** for example, {1:10} means from 1 to 10 pages
+   
+6. Click **CRAWL** button and Wait 
+7. It will start to download the crawled data as **.json** file
+   
 ## Member Introduction
 
 - 	김남권(16011356)
